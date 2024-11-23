@@ -3,7 +3,7 @@ import java.util.Arrays;
 public class DynString {
     private char[] data;
 
-//CONSTRUCTORS    
+    //Constructors
 	public DynString(){ // Construct with no given size
 	    resizeData(0);
 	}
@@ -15,117 +15,65 @@ public class DynString {
         Arrays.fill(data, fill);
     }
     public DynString(String s){ //Construct with given string.
-        resizeData(s.length());
-        for(int i = 0; i < data.length; i++)
-        {
-            data[i] = s.charAt(i);
-        }
+        data = s.toCharArray();
     }
-    
-    public char get(int index)
-    {
-        return data[index];
-    }
-    public void set(int index, char value)
-    {
-        data[index] = value;
-    }
-    public void clear()
-    {
-        data = new char[0];
-    }
-    
-    
-    public boolean empty()
-    {
-        return data.length ==0;
-    }
-    
-    public boolean equals(String s)
-    {
-    	if(data.length != s.length())
-        {
-            return  false;
-        }
-        for(int i = 0; i < s.length(); i++)
-        {
-            if (data[i] != s.charAt(i))
-            {
-                return false;
-            }
-        }
-        return  true;
-    }
-    public boolean equals(DynString d) {
-    	return equals(d.substr(0));
-    }
-    public boolean equals(char[] c) {
-    	return equals(new String(c));
+    public DynString(char[] src){ // Construct with given char array
+        data = Arrays.copyOf(src, src.length);
     }
 
-    public String substr(int startInclusive, int endExclusive)
-    {
-        StringBuilder substr = new StringBuilder();
-        for(int i = startInclusive; i < endExclusive; i++)
-        {
-            substr.append(data[i]);
-        }
-        return substr.toString();
+    //Methods
+    public char get(int index){ //Returns the character stored at the given index
+        return data[index];
     }
-    public String substr(int startInclusive)
-    {
+    
+    public void set(int index, char value){ //Sets the character at the given index to the character passed in
+        data[index] = value;
+    }
+    
+    public void clear(){ //Sets the data array to length 0.
+        resizeData(0);
+    }
+    
+    public int size(){ //Returns current size of the data array.
+        return data.length;
+    }
+    
+    public boolean empty(){ //Returns true if the data is length 0.
+        return size() == 0;
+    }  
+    
+    public boolean equals(Object obj) { //Returns true if data array matches given dynstring, string, or char array
+        if (obj instanceof DynString) {
+            return Arrays.equals(data, ((DynString) obj).data);
+        } else if (obj instanceof String) {
+            return new String(data).equals(obj);
+        } else if (obj instanceof char[]) {
+            return Arrays.equals(data, (char[]) obj);
+        }
+        return false;
+    }
+
+    public String substr(int startInclusive, int endExclusive){ //Returns a string starting from given position and ending at given position
+        return new String(data, startInclusive, endExclusive - startInclusive);
+    }
+    public String substr(int startInclusive){ //Returns a string starting at given position and ending at the end of the data array
     	return substr(startInclusive, data.length);
     }
     
-    public DynString concat(DynString s)
-    {
-    	DynString copy = new DynString(substr(0));
-    	int originalSize = copy.size();
-        copy.resize(originalSize+s.size());
-        for(int i = originalSize, j = 0; i < copy.size(); i++, j++)
-        {
-            copy.set(i, s.get(j));
-        }
-        return copy;
+    public DynString concat(DynString d){ //Returns a new dynstring with values of this one and given dynstring on the end
+    	return concat(d.substr(0));
     }
-    public DynString concat(String s)
-    {
-    	DynString dynString = new DynString(s);
-    	return concat(dynString);
+    public DynString concat(String s){ //Returns a new dynstring with values of this one and the given string on the end
+    	char[] concatData = Arrays.copyOf(data, size() + s.length());
+    	System.arraycopy(s.toCharArray(), 0, concatData, size(), s.length());
+        return new DynString(concatData);
     }
 
-    
-    
-    
-    
-    
-    
-    // Construct copying values from char array
-    public DynString(char[] src){
-        this(src.length);
-        for(int i=0; i<size(); ++i){
-            data[i] = src[i];
-        }
+    public void resize(int len){ //Resizes data array, retaining values where possible.
+        data = Arrays.copyOf(data, len);
     }
     
-    // Get current size
-    public int size(){
-        return data.length;
-    }
-    //resize data; maintaining values
-    public void resize(int len)
-    {
-        char[] newData = new char[len];
-        for(int i = 0; i < newData.length && i < data.length; i++)
-        {
-            newData[i] = data[i];
-        }
-        data = newData;
-    }
-
-    // Resize internal array; zeroes all values
-    private void resizeData(int n){
+    private void resizeData(int n){ //Resize internal array; zeroes all values
         data = new char[n];
     }
-
 }
