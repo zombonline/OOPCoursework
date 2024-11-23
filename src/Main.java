@@ -53,17 +53,17 @@ public class Main {
 //
 //
 		// Exercise: Enter the Data (Week 6)
-		EnterTheData.run(new Scanner(System.in)); // to test interactively
-		EnterTheData.run(new Scanner(
-			"help\n" +
-			"l\n" +
-			"a\n" + "John Doe 47\n" +
-			"a\n" + "Jane Doe 42\n" +
-			"l\n" +
-			"r\n" + "3\n" +
-			"r\n" + "2\n" +	
-			"l\n" +		
-			"q\n"
-		));
+//		EnterTheData.run(new Scanner(System.in)); // to test interactively
+//		EnterTheData.run(new Scanner(
+//			"help\n" +
+//			"l\n" +
+//			"a\n" + "John Doe 47\n" +
+//			"a\n" + "Jane Doe 42\n" +
+//			"l\n" +
+//			"r\n" + "3\n" +
+//			"r\n" + "2\n" +	
+//			"l\n" +		
+//			"q\n"
+//		));
 	}
 }
