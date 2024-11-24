@@ -65,11 +65,13 @@ public class DynStringTest {
 			test( s.equals( "oooo"), "equals: String");
 			test(!s.equals(  "ooo"), "equals: String");
 			test(!s.equals("ooooo"), "equals: String");
+			
+			
 		}
 
 		{ // substr
 			var s = new DynString("steal");
-
+			s.insert(2, null);
 			var t = s.substr(1,4);
 			test(t.equals("tea"), "substr(int,int): wrong result");
 

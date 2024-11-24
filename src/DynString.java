@@ -36,6 +36,45 @@ public class DynString {
     	data[index] = value;
     }
     
+    public DynString insert(int index, Object obj) throws ArrayIndexOutOfBoundsException, IllegalArgumentException {
+    	if(index < 0 || index > size()) {
+        	throw new ArrayIndexOutOfBoundsException("Index out of bounds of dynstring.");
+    	}
+    	char[] left = Arrays.copyOf(data, index);
+    	char[] right = Arrays.copyOfRange(data, index, size());
+    	char[] middle;
+    	
+    	if (obj instanceof DynString) {
+            middle = ((DynString)obj).toCharArray();
+        } 
+        else if (obj instanceof String) {
+            middle = ((String)obj).toCharArray();
+        } 
+        else if (obj instanceof char[]) {
+            middle = (char[])obj;
+        }
+        else {
+        	throw new IllegalArgumentException("Cannot insert object of type " + obj.getClass().getSimpleName());
+        }
+    	
+    	char[] combinedArray = new char[left.length + middle.length + right.length];
+    	System.arraycopy(left, 0, combinedArray, 0, left.length);
+    	System.arraycopy(middle, 0, combinedArray, left.length, middle.length);
+    	System.arraycopy(right, 0, combinedArray, left.length + middle.length, right.length);
+    	
+    	return new DynString(combinedArray);
+    }
+    
+    public char[] toCharArray()
+    {
+    	return Arrays.copyOf(data, size());
+    }
+    
+    public String toString()
+    {
+    	return new String(data);
+    }
+    
     public void clear(){ //Sets the data array to length 0.
         resizeData(0);
     }
@@ -51,9 +90,11 @@ public class DynString {
     public boolean equals(Object obj) { //Returns true if data array matches given dynstring, string, or char array
         if (obj instanceof DynString) {
             return Arrays.equals(data, ((DynString) obj).data);
-        } else if (obj instanceof String) {
+        } 
+        else if (obj instanceof String) {
             return new String(data).equals(obj);
-        } else if (obj instanceof char[]) {
+        } 
+        else if (obj instanceof char[]) {
             return Arrays.equals(data, (char[]) obj);
         }
         return false;

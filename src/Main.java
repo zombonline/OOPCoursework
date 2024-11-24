@@ -52,7 +52,7 @@ public class Main {
 		DynStringTest.run();
 //
 //
-		// Exercise: Enter the Data (Week 6)
+//		 Exercise: Enter the Data (Week 6)
 //		EnterTheData.run(new Scanner(System.in)); // to test interactively
 //		EnterTheData.run(new Scanner(
 //			"help\n" +
