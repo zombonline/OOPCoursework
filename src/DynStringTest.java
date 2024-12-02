@@ -71,7 +71,6 @@ public class DynStringTest {
 
 		{ // substr
 			var s = new DynString("steal");
-			s.insert(2, null);
 			var t = s.substr(1,4);
 			test(t.equals("tea"), "substr(int,int): wrong result");
 

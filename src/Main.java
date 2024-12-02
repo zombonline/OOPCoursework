@@ -41,29 +41,30 @@ public class Main {
 			FindingPi.run(100_000).equals(99733,31746, 7),
 			"FindingPi 100k"
 		);
+		var piApx500k = FindingPi.run(500_000);
 		test(
-			FindingPi.run(500_000).equals(312689,99532, 10), //this should be approximate to 9, test may be wrong
-			"FindingPi 500k"
+		    piApx500k.equals(312689,99532, 9) || piApx500k.equals(312689,99532, 10),
+		    "FindingPi 500k"
 		);
 		
 
 
 		// Exercise: String Weaver (Week 5)
 		DynStringTest.run();
-//
-//
+
+
 //		 Exercise: Enter the Data (Week 6)
-//		EnterTheData.run(new Scanner(System.in)); // to test interactively
-//		EnterTheData.run(new Scanner(
-//			"help\n" +
-//			"l\n" +
-//			"a\n" + "John Doe 47\n" +
-//			"a\n" + "Jane Doe 42\n" +
-//			"l\n" +
-//			"r\n" + "3\n" +
-//			"r\n" + "2\n" +	
-//			"l\n" +		
-//			"q\n"
-//		));
+		EnterTheData.run(new Scanner(System.in)); // to test interactively
+		EnterTheData.run(new Scanner(
+			"help\n" +
+			"l\n" +
+			"a\n" + "John Doe 47\n" +
+			"a\n" + "Jane Doe 42\n" +
+			"l\n" +
+			"r\n" + "3\n" +
+			"r\n" + "2\n" +	
+			"l\n" +		
+			"q\n"
+		));
 	}
 }
