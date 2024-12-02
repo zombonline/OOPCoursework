@@ -1,18 +1,15 @@
-import java.util.ArrayList;
 import java.util.Scanner;
-
+import java.util.HashMap;
 class Entry {
 
     private String firstName, lastName;
     private int age;
-    private String id;
 
-    public Entry(String firstName, String lastName, int age, String id)
+    public Entry(String firstName, String lastName, int age)
     {
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
-        this.id = id;
     }
 
     public String getFirstName() {
@@ -27,13 +24,11 @@ class Entry {
         return age;
     }
 
-    public String getID() {
-    	return id;
-    }
+
 }
 
 public class EnterTheData {
-	private static ArrayList<Entry> data = new ArrayList<Entry>();
+	private static HashMap<String, Entry> data = new HashMap<>();
     private static int idCounter;
     private static boolean running = true;
     private static Scanner scanner;
@@ -43,6 +38,7 @@ public class EnterTheData {
 		idCounter = 0;
 		data.clear();
 		scanner = scan;
+		System.out.println("Welcome.");
 		displayOptions();
 		
         while(running)
@@ -65,7 +61,7 @@ public class EnterTheData {
                 default:
                     displayOptions();
                     break;
-            }
+            } 
         }
 	}
 	public static void displayOptions()
@@ -77,35 +73,36 @@ public class EnterTheData {
     }
     public static void addEntry()
     {
-    	System.out.println("Please enter data in the following format 'firstname lastname age': ");
+    	System.out.print("Please enter data in the following format 'firstname lastname age': ");
         String[] parts = scanner.nextLine().split(" ");
-        Entry newEntry = new Entry(parts[0], parts[1], Integer.parseInt(parts[2]), generateUniqueIDString());
-        data.add(newEntry);
+        Entry newEntry = new Entry(parts[0], parts[1], Integer.parseInt(parts[2]));
+        data.put(generateUniqueIDString(), newEntry);
         System.out.println(newEntry.getFirstName() + " " + newEntry.getLastName() + " added successfully.");
     }
     public static void removeEntry()
     {
-    	System.out.println("Please enter the unique ID of the entry you would like to remove: ");
+    	System.out.print("Please enter the unique ID of the entry you would like to remove: ");
         String input = scanner.nextLine();
-		for(int i = 0; i < data.size(); i++)
-        {
-            Entry entry = data.get(i);
-            if(entry.getID().equals(input))
-            {
-                System.out.println(entry.getFirstName() + " " + entry.getLastName() + " removed successfully.");
-                data.remove(entry);
-            }
-        }
+		if(data.containsKey(input)) {
+			System.out.println(data.get(input).getFirstName() + " " + data.get(input).getLastName() + " removed succesfully.");
+			data.remove(input);
+		}
+		else {
+			System.out.println("No entry under this ID.");
+		}
     }
     public static void listEntries()
     {
-        for(int i = 0; i < data.size(); i++)
-        {
-        	System.out.println("Entries currently in the database: ");
-            Entry entry = data.get(i);
-            String entryString = entry.getLastName() + ", " + entry.getFirstName() + " " + entry.getAge() + " (ID: " + entry.getID() + ")";
-            System.out.println(entryString);
-        }
+    	if(data.size() == 0) {
+    		System.out.println("Database is currently empty.");
+    		return;
+    	}
+    	System.out.println("Entries currently in the database: ");
+    	for (String key : data.keySet()) {
+    		Entry entry = data.get(key);
+            String entryString = entry.getLastName() + ", " + entry.getFirstName() + " " + entry.getAge() + " (ID: " + key + ")";
+    	    System.out.println(entryString);
+    	}
     }
     public static void quit()
     {
